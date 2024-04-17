@@ -458,4 +458,4 @@ for prediction in flattened_predictions:
 for i, sent in enumerate(predicted_sentences, 1):
     print(f"Predicted Sentence {i}:", sent)
 
-summary(model, input_size=[(32, 50), (32, 50)])
+# summary(model, input_size=[(32, 50), (32, 50)])
