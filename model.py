@@ -10,6 +10,7 @@ from collections import Counter
 from tqdm import tqdm
 import spacy
 import matplotlib.pyplot as plt
+from torchsummary import summary
 
 # Ensure deterministic behavior
 torch.manual_seed(42)
@@ -19,6 +20,8 @@ torch.backends.cudnn.deterministic = True
 torch.backends.cudnn.benchmark = False
 
 # Clear screen based on the platform
+
+
 def clear_screen():
     if os.name == 'posix':  # For Linux and macOS
         os.system('clear')
@@ -28,7 +31,9 @@ def clear_screen():
         # For other operating systems, print a bunch of newlines to mimic clearing
         print('\n' * 100)
 
+
 clear_screen()
+
 
 def print_banner():
     banner = """
@@ -44,6 +49,7 @@ def print_banner():
          
     """
     print(banner)
+
 
 # Load data from JSON
 try:
@@ -71,8 +77,11 @@ else:
 print("Dataset loaded successfully.")
 
 # Tokenization function
+
+
 def tokenize(text):
     return [token.text.lower() for token in spacy_en.tokenizer(text)]
+
 
 # Build vocabulary
 spacy_en = spacy.load('en_core_web_sm')
@@ -87,6 +96,7 @@ word2idx = {'<pad>': 0, '<sos>': 1, '<eos>': 2, '<unk>': 3}
 for idx, word in enumerate(vocab, len(word2idx)):
     word2idx[word] = idx
 idx2word = {idx: word for word, idx in word2idx.items()}
+
 
 def check_model_architecture(encoder, decoder):
     # Encoder and Decoder Consistency
@@ -109,17 +119,22 @@ def check_model_architecture(encoder, decoder):
     print("Decoder Layers:", decoder.rnn.num_layers)
 
 # Convert text data to tensors
+
+
 def text_to_tensor(text, max_length):
     tokens = tokenize(text)
     token_ids = [word2idx.get(token, word2idx['<unk>']) for token in tokens]
     token_ids = token_ids[:max_length-2]  # truncate if longer than max length
-    token_ids = [word2idx['<sos>']] + token_ids + [word2idx['<eos>']]  # add SOS and EOS tokens
+    token_ids = [word2idx['<sos>']] + token_ids + \
+        [word2idx['<eos>']]  # add SOS and EOS tokens
     padding_length = max_length - len(token_ids)
     token_ids += [word2idx['<pad>']] * padding_length
     return torch.tensor(token_ids, dtype=torch.long)
 
 # Define dataset class
 # Define dataset class
+
+
 class MyDataset(Dataset):
     def __init__(self, data, max_length):
         self.data = data
@@ -130,28 +145,35 @@ class MyDataset(Dataset):
 
     def __getitem__(self, idx):
         sample = self.data[idx]
-        request_sequence = sample['request']  # Assuming 'request' contains input sequence
-        response_sequence = sample['response']  # Assuming 'response' contains target sequence
-        
+        # Assuming 'request' contains input sequence
+        request_sequence = sample['request']
+        # Assuming 'response' contains target sequence
+        response_sequence = sample['response']
+
         # Tokenize input and target sequences
         input_tokens = tokenize(request_sequence)
         target_tokens = tokenize(response_sequence)
-        
+
         # Add padding tokens
-        input_tokens = input_tokens[:self.max_length - 1]  # Subtract 1 for <eos> token
-        target_tokens = target_tokens[:self.max_length - 1]  # Subtract 1 for <eos> token
+        # Subtract 1 for <eos> token
+        input_tokens = input_tokens[:self.max_length - 1]
+        # Subtract 1 for <eos> token
+        target_tokens = target_tokens[:self.max_length - 1]
         input_tokens += ['<pad>'] * (self.max_length - len(input_tokens))
         target_tokens += ['<pad>'] * (self.max_length - len(target_tokens))
-        
+
         # Convert tokens to tensor indices
-        input_ids = [word2idx.get(token, word2idx['<unk>']) for token in input_tokens]
-        target_ids = [word2idx.get(token, word2idx['<unk>']) for token in target_tokens]
-        
+        input_ids = [word2idx.get(token, word2idx['<unk>'])
+                     for token in input_tokens]
+        target_ids = [word2idx.get(token, word2idx['<unk>'])
+                      for token in target_tokens]
+
         # Convert to tensors
         input_tensor = torch.tensor(input_ids, dtype=torch.long)
         target_tensor = torch.tensor(target_ids, dtype=torch.long)
-        
+
         return input_tensor, target_tensor
+
 
 # Define DataLoader
 BATCH_SIZE = 32
@@ -167,6 +189,8 @@ train_loader = DataLoader(train_dataset, batch_size=BATCH_SIZE, shuffle=True)
 val_loader = DataLoader(val_dataset, batch_size=BATCH_SIZE, shuffle=False)
 
 # Define Decoder
+
+
 class Encoder(nn.Module):
     def __init__(self, input_dim, emb_dim, enc_hid_dim, n_layers, dropout):
         super().__init__()
@@ -179,6 +203,7 @@ class Encoder(nn.Module):
         embedded = self.dropout(self.embedding(src))
         outputs, (hidden, cell) = self.rnn(embedded)
         return outputs, hidden  # Return only outputs and hidden, not cell
+
 
 class Decoder(nn.Module):
     def __init__(self, output_dim, emb_dim, dec_hid_dim, n_layers, dropout):
@@ -199,6 +224,7 @@ class Decoder(nn.Module):
         prediction = self.fc_out(output.squeeze(0))
         return prediction, hidden
 
+
 class Seq2Seq(nn.Module):
     def __init__(self, encoder, decoder, device):
         super().__init__()
@@ -212,7 +238,8 @@ class Seq2Seq(nn.Module):
         trg_len = trg.shape[0]
         trg_vocab_size = self.decoder.output_dim
 
-        outputs = torch.zeros(trg_len, batch_size, trg_vocab_size).to(self.device)
+        outputs = torch.zeros(trg_len, batch_size,
+                              trg_vocab_size).to(self.device)
 
         encoder_outputs, hidden = self.encoder(src)
 
@@ -231,6 +258,8 @@ class Seq2Seq(nn.Module):
         return torch.zeros(self.decoder.n_layers, batch_size, self.decoder.dec_hid_dim, device=self.device)
 
 # Define function to plot training and validation loss
+
+
 def plot_loss(train_losses, val_losses, save_path):
     plt.figure(figsize=(10, 6))
     plt.plot(train_losses, label='Training Loss')
@@ -269,8 +298,8 @@ def train(model, iterator, optimizer, criterion, clip):
 
         epoch_loss += loss.item()
 
-
     return epoch_loss / len(iterator)
+
 
 def evaluate(model, iterator, criterion):
     model.eval()
@@ -282,7 +311,9 @@ def evaluate(model, iterator, criterion):
             output = model(src, trg, 0)  # Turn off teacher forcing
 
             # Calculate loss
-            loss = criterion(output[1:].view(-1, output.shape[-1]), trg[1:].view(-1))  # Ignore <sos> token
+            # Ignore <sos> token
+            loss = criterion(
+                output[1:].view(-1, output.shape[-1]), trg[1:].view(-1))
 
             # Calculate mask to filter out padding tokens
             mask = (trg != word2idx['<pad>']).float()
@@ -294,6 +325,7 @@ def evaluate(model, iterator, criterion):
             epoch_loss += masked_loss.item()
 
     return epoch_loss / len(iterator)
+
 
 N_EPOCHS = 1
 CLIP = 1
@@ -311,7 +343,7 @@ model = Seq2Seq(encoder, decoder, device).to(device)
 check_model_architecture(encoder, decoder)
 
 
-learning_rate = 0.001
+learning_rate = 0.0005
 optimizer = optim.Adam(model.parameters(), lr=learning_rate)
 criterion = nn.CrossEntropyLoss(ignore_index=word2idx['<pad>'])
 
@@ -323,21 +355,24 @@ for epoch in range(N_EPOCHS):
     valid_loss = evaluate(model, val_loader, criterion)
     train_losses.append(train_loss)
     val_losses.append(valid_loss)
-    
+
     if valid_loss < best_valid_loss:
         best_valid_loss = valid_loss
         torch.save(model.state_dict(), 'tut3-model.pt')
+        # Adjust input size as needed
+
         early_stop_count = 0  # Reset the count if validation loss improves
     else:
-        #early_stop_count += 1
+        # early_stop_count += 1
         early_stop_count = 0
 
-    print(f'Epoch: {epoch+1:02} | Train Loss: {train_loss:.3f} | Val. Loss: {valid_loss:.3f}')
+    print(
+        f'Epoch: {epoch+1:02} | Train Loss: {train_loss:.3f} | Val. Loss: {valid_loss:.3f}')
 
     if early_stop_count >= patience:
         print("Validation loss has been increasing for too long. Stopping training.")
         break
-    
+
 # Plot training and validation loss
 plot_loss(train_losses, val_losses, 'loss_plot.png')
 
@@ -346,8 +381,10 @@ print("Starting Testing...")
 # Load the model
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 
-encoder = Encoder(len(word2idx), 256, 512, 2, dropout=0.5)  # Adjust architecture to match the loaded model
-decoder = Decoder(len(word2idx), 256, 512, 2, dropout=0.5)  # Adjust architecture to match the loaded model
+# Adjust architecture to match the loaded model
+encoder = Encoder(len(word2idx), 256, 512, 2, dropout=0.5)
+# Adjust architecture to match the loaded model
+decoder = Decoder(len(word2idx), 256, 512, 2, dropout=0.5)
 model = Seq2Seq(encoder, decoder, device).to(device)
 model.load_state_dict(torch.load('tut3-model.pt'))
 model.eval()
@@ -356,12 +393,13 @@ model.eval()
 test_sentences = [
     "What is question 1?",
     "What is question 2?"
- 
+
 ]
 
 
 # Print tokenized and padded versions of a training and a test sentence
-train_sentence = train_data[0]['request']  # Assuming the first training data is used
+# Assuming the first training data is used
+train_sentence = train_data[0]['request']
 test_sentence = test_sentences[0]  # Assuming test_sentences is defined
 
 # Tokenization
@@ -377,22 +415,32 @@ print("Padded Training Tensor:", train_tensor)
 print("Padded Test Tensor:", test_tensor)
 
 # Prepare test data (example)
-test_data = [text_to_tensor(sentence, MAX_LENGTH) for sentence in test_sentences]
-test_loader = DataLoader(test_data, batch_size=1)  # Since it's just a few sentences, we use batch_size=1
+test_data = [text_to_tensor(sentence, MAX_LENGTH)
+             for sentence in test_sentences]
+# Since it's just a few sentences, we use batch_size=1
+test_loader = DataLoader(test_data, batch_size=1)
+
+
+# Inspect DataLoader Output
+for batch in test_loader:
+    print("Test Batch:", batch)
+
 
 # Evaluate the model
 predictions = []
 with torch.no_grad():
     for src in tqdm(test_loader, desc="Testing Batches"):
         src = src.to(device)
-        hidden = model.init_hidden(1)  # Initialize hidden and cell states with batch size 1
-        output = model(src, torch.zeros(src.shape[0], MAX_LENGTH).to(device), 0)
+        # Initialize hidden and cell states with batch size 1
+        hidden = model.init_hidden(1)
+        output = model(src, torch.zeros(
+            src.shape[0], MAX_LENGTH).to(device), 0)
         output_dim = output.shape[-1]
         output = output.squeeze(1).argmax(dim=-1)  # Convert logits to indices
-        
+
         # Print out the model's output
         print("Model Output:", output)
-        
+
         predictions.append(output.cpu().numpy())
 
 # Flatten the predictions list
@@ -409,3 +457,5 @@ for prediction in flattened_predictions:
 # Print the predicted sentences
 for i, sent in enumerate(predicted_sentences, 1):
     print(f"Predicted Sentence {i}:", sent)
+
+summary(model, input_size=[(32, 50), (32, 50)])
