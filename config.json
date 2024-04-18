@@ -1,6 +1,6 @@
 {
     "training_params": {
-      "N_EPOCHS": 8,
+      "N_EPOCHS": 30,
       "CLIP": 1,
       "learning_rate": 0.00001,
       "patience": 3
