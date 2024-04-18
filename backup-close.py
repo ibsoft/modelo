@@ -175,8 +175,8 @@ class MyDataset(Dataset):
         # Add padding tokens
         # Subtract 1 for <eos> token
         input_tokens = input_tokens[:self.max_length - 1]
-        # Add <eos> token to target sequence
-        target_tokens = target_tokens[:self.max_length - 1] + ['<eos>']
+        # Subtract 1 for <eos> token
+        target_tokens = target_tokens[:self.max_length - 1]
         input_tokens += ['<pad>'] * (self.max_length - len(input_tokens))
         target_tokens += ['<pad>'] * (self.max_length - len(target_tokens))
 
@@ -192,9 +192,8 @@ class MyDataset(Dataset):
 
         return input_tensor, target_tensor
 
-
 # Define DataLoader
-BATCH_SIZE = 64
+BATCH_SIZE = 16
 MAX_LENGTH = 50
 
 train_dataset = MyDataset(train_data, MAX_LENGTH)
@@ -384,39 +383,34 @@ model.load_state_dict(torch.load('tut3-model.pt'))
 # Set the model to evaluation mode
 model.eval()
 
-
 def translate_sentence(sentence, model, device, max_len=50):
     model.eval()
     tokenized = tokenize(sentence)
     tokenized = ['<sos>'] + tokenized + ['<eos>']
     numericalized = [word2idx.get(token, word2idx['<unk>']) for token in tokenized]
+    sentence_length = len(numericalized)
     input_tensor = torch.LongTensor(numericalized).unsqueeze(1).to(device)
     with torch.no_grad():
         encoder_outputs, hidden = model.encoder(input_tensor)
-    
-    outputs = []
+    outputs = [word2idx['<sos>']]
     for _ in range(max_len):
-        previous_word = torch.tensor([word2idx['<sos>']], dtype=torch.long).to(device)
-        print("Previous word:", idx2word[previous_word.item()])
-
+        previous_word = torch.LongTensor([outputs[-1]]).to(device)
         with torch.no_grad():
             output, hidden = model.decoder(previous_word, hidden)
-        best_guess = output.argmax(1).item()
+            best_guess = output.argmax(1).item()
+        outputs.append(best_guess)
         if best_guess == word2idx['<eos>']:
             break
-        outputs.append(best_guess)
-    
     translated_sentence = [idx2word[idx] for idx in outputs]
+    # Remove <sos> and <eos> tokens from the translation
+    translated_sentence = translated_sentence[1:-1]
     return translated_sentence
 
 
 # Test the model
 print("Starting Testing...")
-
-test_sentence = "What is a database?"
-
+test_sentence = "What is question 1?"
 predicted_sentence = translate_sentence(test_sentence, model, device, max_len=50)
-
 print(f"Input: {test_sentence}")
 print(f"Prediction: {' '.join(predicted_sentence)}")
 
@@ -427,5 +421,4 @@ elapsed_time = end_time - start_time
 
 # Print elapsed time
 print()
-
-print(elapsed_time)  # Output: "1 week, 5 hours, 30 minutes, 10 seconds"
+print(f"Time taken: {elapsed_time:.2f} seconds")
