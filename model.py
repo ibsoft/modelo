@@ -105,6 +105,7 @@ except json.JSONDecodeError:
     print("Error: JSON decoding failed. Please check if the file contains valid JSON data.")
     data = []
 
+
 # Split data into training and validation sets
 if len(data) >= 10:
     split_idx = int(len(data) * 0.9)
@@ -466,7 +467,7 @@ def translate_sentence(sentence, model, device, max_len=50):
 # Test the model
 print("Starting Testing...")
 
-test_sentence = "What is a database?"
+test_sentence = "Find videos of Van Gogh's famous paintings?"
 print('')
 
 predicted_sentence = translate_sentence(

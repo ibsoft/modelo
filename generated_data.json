@@ -1,270 +1,523 @@
 [
   {
-    "request": "What is a CPU?",
-    "response": "A CPU (Central Processing Unit) is the primary component of a computer that performs arithmetic, logic, control, and input/output operations specified by the instructions in a program."
+    "request": "Find videos of Van Gogh's famous paintings?",
+    "response": "Van Gogh's famous paintings"
   },
   {
-    "request": "What does RAM stand for?",
-    "response": "RAM (Random Access Memory) is a type of computer memory that can be accessed randomly, and is used to store data and machine code currently being used."
+    "request": "Show me videos of Bruno Mars' live concerts",
+    "response": "Bruno Mars' live concerts"
   },
   {
-    "request": "How does a hard drive work?",
-    "response": "A hard drive is a data storage device that uses magnetic storage to store and retrieve digital information. It consists of one or more rigid platters coated with magnetic material, along with magnetic heads arranged on a moving actuator arm to read and write data."
+    "request": "Find tutorials on photography composition techniques",
+    "response": "photography composition techniques tutorials"
   },
   {
-    "request": "What is an operating system?",
-    "response": "An operating system (OS) is system software that manages computer hardware, software resources, and provides common services for computer programs."
+    "request": "Show me videos of Michelle Obama's speeches",
+    "response": "Michelle Obama's speeches"
   },
   {
-    "request": "What is a GPU used for?",
-    "response": "A GPU (Graphics Processing Unit) is a specialized electronic circuit designed to rapidly manipulate and alter memory to accelerate the creation of images in a frame buffer intended for output to a display device."
+    "request": "Find videos of traditional Thai cuisine cooking",
+    "response": "traditional Thai cuisine cooking"
   },
   {
-    "request": "What is a motherboard?",
-    "response": "A motherboard is the main circuit board of a computer that houses the CPU, memory, expansion slots, connectors, and other essential components."
+    "request": "Find tutorials on painting with watercolors",
+    "response": "painting with watercolors"
   },
   {
-    "request": "What is BIOS?",
-    "response": "BIOS (Basic Input/Output System) is firmware used to perform hardware initialization during the booting process, and to provide runtime services for operating systems and programs."
+    "request": "Show me videos of Beyoncé's live performances",
+    "response": "Beyoncé's live performances"
   },
   {
-    "request": "What is a LAN?",
-    "response": "A LAN (Local Area Network) is a network that connects computers and devices within a limited geographical area, such as a home, office building, or school campus."
+    "request": "Find videos of vegan cooking recipes",
+    "response": "vegan cooking recipes"
   },
   {
-    "request": "What is a WAN?",
-    "response": "A WAN (Wide Area Network) is a network that covers a broad area, typically consisting of multiple LANs connected over long distances using telecommunications links, such as fiber optic cables or satellite links."
+    "request": "Find traditional dance performances from India",
+    "response": "traditional dance performances from India"
   },
   {
-    "request": "What is a firewall?",
-    "response": "A firewall is a network security device that monitors and controls incoming and outgoing network traffic based on predetermined security rules, thereby preventing unauthorized access to or from a private network."
+    "request": "I'm looking for workout routine videos for beginners",
+    "response": "Workout routine videos for beginners"
   },
   {
-    "request": "What is malware?",
-    "response": "Malware is a broad term used to describe any type of malicious software designed to disrupt, damage, or gain unauthorized access to computer systems, networks, or data."
+    "request": "Find videos of Leonardo da Vinci's artworks",
+    "response": "Leonardo da Vinci's artworks"
   },
   {
-    "request": "What is phishing?",
-    "response": "Phishing is a cyber attack method used by attackers to trick individuals into providing sensitive information, such as usernames, passwords, and credit card details, by posing as a legitimate and trustworthy entity in electronic communication."
+    "request": "Show me videos of Taylor Swift's music videos",
+    "response": "Taylor Swift's music videos"
   },
   {
-    "request": "What is encryption?",
-    "response": "Encryption is the process of converting plain text or data into a secret code to prevent unauthorized access during transmission or storage, thereby ensuring confidentiality and data security."
+    "request": "Find tutorials on yoga poses for beginners",
+    "response": "yoga poses for beginners"
   },
   {
-    "request": "What is a DNS?",
-    "response": "DNS (Domain Name System) is a hierarchical decentralized naming system used to translate human-readable domain names into numerical IP addresses required for locating and identifying computer services and devices on a network."
+    "request": "Show me videos of Elon Musk's interviews",
+    "response": "Elon Musk's interviews"
   },
   {
-    "request": "What is cloud computing?",
-    "response": "Cloud computing is a model of delivering computing services over the internet on a pay-per-use basis, including storage, processing power, databases, and software, without the need for direct management or maintenance by the user."
+    "request": "Find videos of Japanese tea ceremony demonstrations",
+    "response": "Japanese tea ceremony demonstrations"
   },
   {
-    "request": "What is virtualization?",
-    "response": "Virtualization is the process of creating a virtual representation of computer hardware, operating systems, storage devices, or network resources to optimize resource utilization, improve scalability, and enhance flexibility in IT environments."
+    "request": "Find videos of classical music performances",
+    "response": "classical music performances"
   },
   {
-    "request": "What is HTTP?",
-    "response": "HTTP (Hypertext Transfer Protocol) is an application protocol used for transmitting hypermedia documents, such as HTML files, over the internet between a web server and a web browser."
+    "request": "Show me videos of Adele's music videos",
+    "response": "Adele's music videos"
   },
   {
-    "request": "What is HTTPS?",
-    "response": "HTTPS (Hypertext Transfer Protocol Secure) is an extension of HTTP that encrypts and secures data transmitted over the internet using the Transport Layer Security (TLS) or Secure Sockets Layer (SSL) cryptographic protocols."
+    "request": "Find tutorials on digital illustration techniques",
+    "response": "Tutorials on digital illustration techniques"
   },
   {
-    "request": "What is HTML?",
-    "response": "HTML (Hypertext Markup Language) is the standard markup language used to create and design web pages, defining the structure and layout of content by using a variety of tags and attributes."
+    "request": "Show me videos of Bill Gates' interviews",
+    "response": "Bill Gates' interviews"
   },
   {
-    "request": "What is CSS?",
-    "response": "CSS (Cascading Style Sheets) is a style sheet language used to describe the presentation and formatting of HTML documents, enabling developers to control the appearance, layout, and design of web pages."
+    "request": "Find videos of Brazilian samba dance performances",
+    "response": "Brazilian samba dance performances"
   },
   {
-    "request": "What is JavaScript?",
-    "response": "JavaScript is a high-level programming language primarily used for client-side scripting in web development, allowing developers to create dynamic and interactive content, control web browser behavior, and manipulate HTML and CSS."
+    "request": "Find videos of Claude Monet's impressionist paintings",
+    "response": "Claude Monet's impressionist paintings"
   },
   {
-    "request": "What is SQL?",
-    "response": "SQL (Structured Query Language) is a domain-specific programming language used for managing and manipulating relational databases, enabling users to query, update, and control data stored in a database management system (DBMS)."
+    "request": "Show me videos of Ed Sheeran's live performances",
+    "response": "Ed Sheeran's live performances"
   },
   {
-    "request": "What is a server?",
-    "response": "A server is a computer or device that provides data, services, or resources to other computers or devices on a network, typically over a local area network (LAN) or the internet."
+    "request": "Find tutorials on basic coding concepts",
+    "response": "Tutorials on basic coding concepts"
   },
   {
-    "request": "What is a client?",
-    "response": "A client is a computer or device that requests and receives data, services, or resources from a server or another computer on a network, typically over a local area network (LAN) or the internet."
+    "request": "Show me videos of Oprah Winfrey's inspirational talks",
+    "response": "Oprah Winfrey's inspirational talks"
   },
   {
-    "request": "What is an IP address?",
-    "response": "An IP address (Internet Protocol address) is a numerical label assigned to each device connected to a computer network that uses the Internet Protocol for communication and identification purposes."
+    "request": "Find videos of French cuisine cooking recipes",
+    "response": "French cuisine cooking recipes"
   },
   {
-    "request": "What is a subnet mask?",
-    "response": "A subnet mask is a 32-bit number used in conjunction with an IP address to identify the network and host portions of an IP address, thereby facilitating the routing of data packets across networks."
+    "request": "Find videos of Mozart's classical music compositions",
+    "response": "Mozart's classical music compositions"
   },
   {
-    "request": "What is a router?",
-    "response": "A router is a network device that forwards data packets between computer networks, typically using routing information to determine the best path for transmission based on destination IP addresses."
+    "request": "Show me videos of Justin Timberlake's music videos",
+    "response": "Justin Timberlake's music videos"
   },
   {
-    "request": "What is a switch?",
-    "response": "A switch is a network device that connects multiple devices within a local area network (LAN) and forwards data packets between them based on the destination MAC addresses, thereby optimizing network performance and efficiency."
+    "request": "Find tutorials on graphic design principles",
+    "response": "Tutorials on graphic design principles"
   },
   {
-    "request": "What is a proxy server?",
-    "response": "A proxy server is an intermediary server that acts as a gateway between a client computer and the internet, forwarding client requests and responses to and from other servers, thereby enhancing privacy, security, and performance."
+    "request": "Show me videos of Steve Jobs' keynote speeches",
+    "response": "Steve Jobs' keynote speeches"
   },
   {
-    "request": "What is a domain name?",
-    "response": "A domain name is a human-readable label used to identify and locate computers, services, or resources on the internet, typically corresponding to an IP address or a group of IP addresses assigned to a specific entity or organization."
+    "request": "Find videos of flamenco dance performances",
+    "response": "flamenco dance performances"
   },
   {
-    "request": "What is bandwidth?",
-    "response": "Bandwidth refers to the maximum data transfer rate of a network or internet connection, typically measured in bits per second (bps), kilobits per second (kbps), megabits per second (Mbps), or gigabits per second (Gbps)."
+    "request": "Find videos of Pablo Picasso's cubist paintings",
+    "response": "Pablo Picasso's cubist paintings"
   },
   {
-    "request": "What is latency?",
-    "response": "Latency is the delay or time interval between the initiation of a request for data and the receipt of the data, typically measured in milliseconds (ms), and influenced by factors such as network congestion, transmission medium, and processing time."
+    "request": "Show me videos of Rihanna's music",
+    "response": "Rihanna's music videos"
   },
   {
-    "request": "What is a data center?",
-    "response": "A data center is a facility used to house computer systems, servers, networking equipment, storage devices, and other IT infrastructure components, typically designed to ensure high availability, reliability, and security of data and applications."
+    "request": "Find tutorials on advanced mathematics concepts",
+    "response": "Tutorials on advanced mathematics concepts"
   },
   {
-    "request": "What is RAID?",
-    "response": "RAID (Redundant Array of Independent Disks) is a data storage technology that combines multiple physical disk drives into a single logical unit for the purpose of data redundancy, performance improvement, or both."
+    "request": "Show me videos of Ellen DeGeneres' funny moments",
+    "response": "Ellen DeGeneres' funny moments"
   },
   {
-    "request": "What is a VPN?",
-    "response": "A VPN (Virtual Private Network) is a secure network connection established over a public network, such as the internet, that allows users to securely access and transmit data between remote locations as if they were directly connected to a private network."
+    "request": "Find videos of Italian pasta cooking recipes",
+    "response": "Italian pasta cooking recipes"
   },
   {
-    "request": "What is a cookie?",
-    "response": "A cookie is a small piece of data stored on a user's device by a web browser while browsing a website, used to remember user preferences, login sessions, and other information for future visits."
+    "request": "Find videos of Beethoven's classical music compositions",
+    "response": "Beethoven classical music compositions"
   },
   {
-    "request": "What is a web server?",
-    "response": "A web server is a computer or software system that hosts and serves web content, such as web pages, multimedia files, and web applications, in response to client requests received via HTTP or HTTPS protocols."
+    "request": "Show me videos of Katy Perry's music videos",
+    "response": "Katy Perry music videos"
   },
   {
-    "request": "What is a database?",
-    "response": "A database is an organized collection of data stored and managed electronically in a structured format, typically using database management system (DBMS) software for data retrieval, storage, manipulation, and analysis."
+    "request": "Find tutorials on web development frameworks",
+    "response": "Tutorials on web development frameworks"
   },
   {
-    "request": "What is a firewall?",
-    "response": "A firewall is a network security device that monitors and controls incoming and outgoing network traffic based on predetermined security rules, thereby preventing unauthorized access to or from a private network."
+    "request": "Show me videos of Michelle Pfeiffer's movie scenes",
+    "response": "Michelle Pfeiffer movie scenes"
   },
   {
-    "request": "What is malware?",
-    "response": "Malware is a broad term used to describe any type of malicious software designed to disrupt, damage, or gain unauthorized access to computer systems, networks, or data."
+    "request": "Find videos of sushi making techniques",
+    "response": "sushi making techniques"
   },
   {
-    "request": "What is phishing?",
-    "response": "Phishing is a cyber attack method used by attackers to trick individuals into providing sensitive information, such as usernames, passwords, and credit card details, by posing as a legitimate and trustworthy entity in electronic communication."
+    "request": "Find videos of Tchaikovsky's classical music compositions",
+    "response": "Tchaikovsky's classical music compositions"
   },
   {
-    "request": "What is encryption?",
-    "response": "Encryption is the process of converting plain text or data into a secret code to prevent unauthorized access during transmission or storage, thereby ensuring confidentiality and data security."
+    "request": "Show me videos of Selena Gomez's music videos",
+    "response": "Selena Gomez music videos"
   },
   {
-    "request": "What is a DNS?",
-    "response": "DNS (Domain Name System) is a hierarchical decentralized naming system used to translate human-readable domain names into numerical IP addresses required for locating and identifying computer services and devices on a network."
+    "request": "Find video tutorials on machine learning algorithms",
+    "response": "machine learning algorithms tutorials"
   },
   {
-    "request": "What is cloud computing?",
-    "response": "Cloud computing is a model of delivering computing services over the internet on a pay-per-use basis, including storage, processing power, databases, and software, without the need for direct management or maintenance by the user."
+    "request": "Show me videos of Meryl Streep's memorable movie scenes",
+    "response": "Meryl Streep memorable movie scenes"
   },
   {
-    "request": "What is virtualization?",
-    "response": "Virtualization is the process of creating a virtual representation of computer hardware, operating systems, storage devices, or network resources to optimize resource utilization, improve scalability, and enhance flexibility in IT environments."
+    "request": "Find videos of sushi restaurants in Tokyo",
+    "response": "sushi restaurants in Tokyo"
   },
   {
-    "request": "What is HTTP?",
-    "response": "HTTP (Hypertext Transfer Protocol) is an application protocol used for transmitting hypermedia documents, such as HTML files, over the internet between a web server and a web browser."
+    "request": "Find videos of Vivaldi's classical music compositions",
+    "response": "Vivaldi classical music"
   },
   {
-    "request": "What is HTTPS?",
-    "response": "HTTPS (Hypertext Transfer Protocol Secure) is an extension of HTTP that encrypts and secures data transmitted over the internet using the Transport Layer Security (TLS) or Secure Sockets Layer (SSL) cryptographic protocols."
+    "request": "Show me videos of Ariana Grande's music videos",
+    "response": "Ariana Grande"
   },
   {
-    "request": "What is HTML?",
-    "response": "HTML (Hypertext Markup Language) is the standard markup language used to create and design web pages, defining the structure and layout of content by using a variety of tags and attributes."
+    "request": "Find tutorials on data visualization techniques",
+    "response": "data visualization techniques tutorials"
   },
   {
-    "request": "What is CSS?",
-    "response": "CSS (Cascading Style Sheets) is a style sheet language used to describe the presentation and formatting of HTML documents, enabling developers to control the appearance, layout, and design of web pages."
+    "request": "Show me videos of Tom Hanks' best movie scenes",
+    "response": "Tom Hanks best movie scenes"
   },
   {
-    "request": "What is JavaScript?",
-    "response": "JavaScript is a high-level programming language primarily used for client-side scripting in web development, allowing developers to create dynamic and interactive content, control web browser behavior, and manipulate HTML and CSS."
+    "request": "Find videos of sushi recipes with salmon",
+    "response": "sushi recipes with salmon"
   },
   {
-    "request": "What is SQL?",
-    "response": "SQL (Structured Query Language) is a domain-specific programming language used for managing and manipulating relational databases, enabling users to query, update, and control data stored in a database management system (DBMS)."
+    "request": "Find videos of Chopin's classical music compositions",
+    "response": "Chopin classical music"
   },
   {
-    "request": "What is a server?",
-    "response": "A server is a computer or device that provides data, services, or resources to other computers or devices on a network, typically over a local area network (LAN) or the internet."
+    "request": "Show me videos of Lady Gaga's music videos",
+    "response": "Lady Gaga music videos"
   },
   {
-    "request": "What is a client?",
-    "response": "A client is a computer or device that requests and receives data, services, or resources from a server or another computer on a network, typically over a local area network (LAN) or the internet."
+    "request": "Find tutorials on artificial intelligence concepts",
+    "response": "artificial intelligence concepts tutorials"
   },
   {
-    "request": "What is an IP address?",
-    "response": "An IP address (Internet Protocol address) is a numerical label assigned to each device connected to a computer network that uses the Internet Protocol for communication and identification purposes."
+    "request": "Show me videos of Leonardo DiCaprio's movie scenes",
+    "response": "Leonardo DiCaprio movie scenes"
   },
   {
-    "request": "What is a subnet mask?",
-    "response": "A subnet mask is a 32-bit number used in conjunction with an IP address to identify the network and host portions of an IP address, thereby facilitating the routing of data packets across networks."
+    "request": "Find videos of chocolate dessert recipes",
+    "response": "chocolate dessert recipes"
   },
   {
-    "request": "What is a router?",
-    "response": "A router is a network device that forwards data packets between computer networks, typically using routing information to determine the best path for transmission based on destination IP addresses."
+    "request": "Find videos of Rachmaninoff's classical music compositions",
+    "response": "Rachmaninoff classical music"
   },
   {
-    "request": "What is a switch?",
-    "response": "A switch is a network device that connects multiple devices within a local area network (LAN) and forwards data packets between them based on the destination MAC addresses, thereby optimizing network performance and efficiency."
+    "request": "Show me videos of Shakira's music videos",
+    "response": "Shakira music videos"
   },
   {
-    "request": "What is a proxy server?",
-    "response": "A proxy server is an intermediary server that acts as a gateway between a client computer and the internet, forwarding client requests and responses to and from other servers, thereby enhancing privacy, security, and performance."
+    "request": "Find tutorials on quantum physics principles",
+    "response": "quantum physics principles"
   },
   {
-    "request": "What is a domain name?",
-    "response": "A domain name is a human-readable label used to identify and locate computers, services, or resources on the internet, typically corresponding to an IP address or a group of IP addresses assigned to a specific entity or organization."
+    "request": "Show me videos of Johnny Depp's iconic movie scenes",
+    "response": "Johnny Depp iconic movie scenes"
   },
   {
-    "request": "What is bandwidth?",
-    "response": "Bandwidth refers to the maximum data transfer rate of a network or internet connection, typically measured in bits per second (bps), kilobits per second (kbps), megabits per second (Mbps), or gigabits per second (Gbps)."
+    "request": "Find videos of Italian pizza recipes",
+    "response": "Italian pizza recipes"
   },
   {
-    "request": "What is latency?",
-    "response": "Latency is the delay or time interval between the initiation of a request for data and the receipt of the data, typically measured in milliseconds (ms), and influenced by factors such as network congestion, transmission medium, and processing time."
+    "request": "Find videos of Debussy's classical music compositions",
+    "response": "Debussy classical music"
   },
   {
-    "request": "What is a data center?",
-    "response": "A data center is a facility used to house computer systems, servers, networking equipment, storage devices, and other IT infrastructure components, typically designed to ensure high availability, reliability, and security of data and applications."
+    "request": "Show me videos of Katy Perry's live concerts",
+    "response": "Katy Perry live concerts"
   },
   {
-    "request": "What is RAID?",
-    "response": "RAID (Redundant Array of Independent Disks) is a data storage technology that combines multiple physical disk drives into a single logical unit for the purpose of data redundancy, performance improvement, or both."
+    "request": "Find tutorials on game development programming",
+    "response": "game development programming tutorials"
   },
   {
-    "request": "What is a VPN?",
-    "response": "A VPN (Virtual Private Network) is a secure network connection established over a public network, such as the internet, that allows users to securely access and transmit data between remote locations as if they were directly connected to a private network."
+    "request": "Show me videos of Natalie Portman's movie scenes",
+    "response": "Natalie Portman movie scenes"
   },
   {
-    "request": "What is a cookie?",
-    "response": "A cookie is a small piece of data stored on a user's device by a web browser while browsing a website, used to remember user preferences, login sessions, and other information for future visits."
+    "request": "Find videos of Italian gelato making techniques",
+    "response": "Italian gelato making techniques"
   },
   {
-    "request": "What is a web server?",
-    "response": "A web server is a computer or software system that hosts and serves web content, such as web pages, multimedia files, and web applications, in response to client requests received via HTTP or HTTPS protocols."
+    "request": "Find videos of Handel's classical music compositions",
+    "response": "Handel classical music compositions"
   },
   {
-    "request": "What is a database?",
-    "response": "A database is an organized collection of data stored and managed electronically in a structured format, typically using database management system (DBMS) software for data retrieval, storage, manipulation, and analysis."
+    "request": "Show me videos of Maroon 5's music videos",
+    "response": "Maroon 5 music videos"
+  },
+  {
+    "request": "Find tutorials on computer networking fundamentals",
+    "response": "Tutorials on computer networking fundamentals"
+  },
+  {
+    "request": "Show me videos of Leonardo DiCaprio's Oscar-winning performances",
+    "response": "Leonardo DiCaprio's Oscar-winning performances"
+  },
+  {
+    "request": "Find videos of French pastry baking techniques",
+    "response": "French pastry baking techniques"
+  },
+  {
+    "request": "Find tutorials on watercolor landscape painting techniques",
+    "response": "Tutorials on watercolor landscape painting techniques"
+  },
+  {
+    "request": "Show me videos of Michael Jackson's iconic dance performances",
+    "response": "Michael Jackson iconic dance performances"
+  },
+  {
+    "request": "Find videos of Mediterranean cuisine cooking recipes",
+    "response": "Mediterranean cuisine recipes"
+  },
+  {
+    "request": "Find videos of Irish step dance performances",
+    "response": "Irish step dance performances"
+  },
+  {
+    "request": "I'm looking for videos of Pilates exercises for beginners",
+    "response": "Pilates exercises for beginners"
+  },
+  {
+    "request": "Find videos of Salvador Dali's surrealistic artworks",
+    "response": "Salvador Dali surrealistic artworks"
+  },
+  {
+    "request": "Show me videos of Coldplay's music videos",
+    "response": "Coldplay music videos"
+  },
+  {
+    "request": "Find tutorials on oil painting portrait techniques",
+    "response": "oil painting portrait techniques"
+  },
+  {
+    "request": "Show me videos of Barack Obama's inspiring speeches",
+    "response": "Barack Obama's inspiring speeches"
+  },
+  {
+    "request": "Find videos of Korean barbecue cooking recipes",
+    "response": "Korean barbecue cooking recipes"
+  },
+  {
+    "request": "videos of Bach's classical music compositions",
+    "response": "Bach's classical music"
+  },
+  {
+    "request": "Show me videos of Britney Spears' music videos",
+    "response": "Britney Spears music videos"
+  },
+  {
+    "request": "Find tutorials on acrylic painting techniques for beginners",
+    "response": "acrylic painting techniques"
+  },
+  {
+    "request": "Show me videos of Nelson Mandela historic speeches",
+    "response": "Nelson Mandela historic speeches"
+  },
+  {
+    "request": "Chinese dumpling making techniques videos",
+    "response": "Chinese dumpling making techniques"
+  },
+  {
+    "request": "videos of Brahms' classical music composition",
+    "response": "Brahms' classical music"
+  },
+  {
+    "request": "Justin Bieber music videos",
+    "response": "Justin Bieber music videos"
+  },
+  {
+    "request": "video tutorials on 3D modeling software techniques",
+    "response": "3D modeling software techniques"
+  },
+  {
+    "request": "videos of Winston Churchill's famous speeches",
+    "response": "Winston Churchill's famous speeches"
+  },
+  {
+    "request": "Indian curry cooking recipe videos",
+    "response": "Indian curry cooking recipe videos"
+  },
+  
+  {
+    "request": "Find videos of origami folding tutorials",
+    "response": "origami folding tutorials"
+  },
+  {
+    "request": "Show me videos of Freddie Mercury's live performances",
+    "response": "Freddie Mercury live performances"
+  },
+  {
+    "request": "Find tutorials on cake decorating techniques",
+    "response": "cake decorating techniques tutotial"
+  },
+  {
+    "request": "Show me videos of Anthony Hopkins' movie scenes",
+    "response": "Anthony Hopkins movie scenes"
+  },
+  {
+    "request": "Find videos of Thai street food cooking recipes",
+    "response": "Thai street food cooking recipes"
+  },
+  {
+    "request": "Find videos of ballet performances",
+    "response": "ballet performances"
+  },
+  {
+    "request": "videos of Quentin Tarantino movie scenes",
+    "response": "Quentin Tarantino movie scenes"
+  },
+  {
+    "request": "Find tutorials on calligraphy writing techniques",
+    "response": "calligraphy writing techniques tutorials"
+  },
+  {
+    "request": "Show me videos of Malala Yousafzai's speeches",
+    "response": "Malala Yousafzai speeches"
+  },
+  {
+    "request": "Find videos of Mexican taco cooking recipes",
+    "response": "Mexican taco recipes"
+  },
+  {
+    "request": "Find videos of Shakespearean theater performances",
+    "response": "Shakespearean theater performances"
+  },
+  {
+    "request": "videos of Vin Diesel action movie scenes",
+    "response": "Vin Diesel action movie scenes"
+  },
+  {
+    "request": "video tutorials on meditation techniques for beginners",
+    "response": "meditation techniques for beginners"
+  },
+  {
+    "request": "videos of Nelson Mandela's life story",
+    "response": "Nelson Mandela's life story"
+  },
+  {
+    "request": "Find videos of Indian street food cooking recipes",
+    "response": "Indian street food recipes"
+  },
+  {
+    "request": "Find videos of electronic music DJ performances",
+    "response": "electronic music DJ performances"
+  },
+  {
+    "request": "Show me videos of Mahatma Gandhi historic speeches",
+    "response": "Mahatma Gandhi historic speeches"
+  },
+  {
+    "request": "Find videos of French pastry making techniques",
+    "response": "French pastry making techniques"
+  },
+  {
+    "request": "Find videos of Johannes Vermeer's famous paintings",
+    "response": "Johannes Vermeer's famous paintings"
+  },
+  {
+    "request": "Show me videos of Quentin Tarantino's movie interviews",
+    "response": "Quentin Tarantino's movie interviews"
+  },
+  {
+    "request": "videos of basketball dribbling drills",
+    "response": "basketball dribbling drills"
+  },
+  {
+    "request": "Show me videos of Lionel Messi football highlights",
+    "response": "Lionel Messi football highlights"
+  },
+  {
+    "request": "video tutorials on tennis serving techniques",
+    "response": "Tutorials on tennis serving techniques"
+  },
+  {
+    "request": "Show me videos of Usain Bolt's sprint races",
+    "response": "Usain Bolt's sprint races"
+  },
+  {
+    "request": "videos of golf swing analysis",
+    "response": "golf swing analysis"
+  },
+  {
+    "request": "Find videos of Cristiano Ronaldo's soccer skills",
+    "response": "Cristiano Ronaldo's soccer skills"
+  },
+  {
+    "request": "Show me videos of Serena Williams' tennis matches",
+    "response": "Serena Williams' tennis matches"
+  },
+  {
+    "request": "Find tutorials on swimming stroke techniques",
+    "response": "swimming stroke techniques tutorial"
+  },
+  {
+    "request": "Show me videos of Michael Phelps' Olympic races",
+    "response": "Michael Phelps Olympic races"
+  },
+  {
+    "request": "Find videos of baseball pitching tutorials",
+    "response": "baseball pitching tutorials"
+  },
+  {
+    "request": "videos of Roger Federer's tennis grand slam victories",
+    "response": "Roger Federer's tennis grand slam victories"
+  },
+  {
+    "request": "Find tutorials on basketball shooting techniques",
+    "response": "basketball shooting techniques tutorial"
+  },
+  {
+    "request": "youtube videos of Simone Biles' gymnastics performances",
+    "response": "Simone Biles' gymnastics performances"
+  },
+  {
+    "request": "youtube videos of hockey stick handling drills",
+    "response": "hockey stick handling drills"
+  },
+  {
+    "request": "youtube videos of Tom Brady's football touchdowns",
+    "response": "Tom Brady's football touchdowns"
+  },
+  {
+    "request": "youtube tutorials on volleyball serving techniques",
+    "response": "volleyball serving techniques tutorial"
+  },
+  {
+    "request": "youtube videos of Ronda Rousey's MMA fights",
+    "response": "Ronda Rousey's MMA fights"
+  },
+  {
+    "request": "Find youtube videos of cricket batting drills",
+    "response": "cricket batting drills"
+  },
+  {
+    "request": "Kobe Bryant's basketball highlights vids",
+    "response": "Kobe Bryant's basketball highlights"
+  },
+  {
+    "request": "Find vid tutorials on soccer dribbling techniques",
+    "response": "soccer dribbling techniques tutorial"
   }
 ]
