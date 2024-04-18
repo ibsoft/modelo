@@ -13,7 +13,6 @@ import spacy
 import matplotlib.pyplot as plt
 from torchsummary import summary
 
-
 start_time = time.time()
 
 # Ensure deterministic behavior
@@ -24,6 +23,8 @@ torch.backends.cudnn.deterministic = True
 torch.backends.cudnn.benchmark = False
 
 # Clear screen based on the platform
+
+
 def clear_screen():
     if os.name == 'posix':  # For Linux and macOS
         os.system('clear')
@@ -33,7 +34,9 @@ def clear_screen():
         # For other operating systems, print a bunch of newlines to mimic clearing
         print('\n' * 100)
 
+
 clear_screen()
+
 
 def print_banner():
     banner = """
@@ -43,7 +46,9 @@ def print_banner():
     """
     print(banner)
 
+
 print_banner()
+
 
 def load_config(config_path):
     try:
@@ -56,6 +61,7 @@ def load_config(config_path):
     except json.JSONDecodeError as e:
         print(f"Error: JSON decoding failed in '{config_path}'. Details: {e}")
         return None
+
 
 config = load_config('config.json')
 if config is not None:
@@ -89,7 +95,7 @@ except json.JSONDecodeError:
     data = []
 
 # Split data into training and validation sets
-if len(data) >= 1000:
+if len(data) >= 10:
     split_idx = int(len(data) * 0.9)
     train_data = data[:split_idx]
     val_data = data[split_idx:]
@@ -103,8 +109,11 @@ else:
 print("Dataset loaded successfully.")
 
 # Tokenization function
+
+
 def tokenize(text):
     return [token.text.lower() for token in spacy_en.tokenizer(text)]
+
 
 # Build vocabulary
 spacy_en = spacy.load('en_core_web_sm')
@@ -121,6 +130,8 @@ for idx, word in enumerate(vocab, len(word2idx)):
 idx2word = {idx: word for word, idx in word2idx.items()}
 
 # Function to check model architecture
+
+
 def check_model_architecture(encoder, decoder):
     # Encoder and Decoder Consistency
     print("Encoder and Decoder Consistency: Ensure that the output dimension of the encoder matches the input dimension of the decoder.")
@@ -142,6 +153,8 @@ def check_model_architecture(encoder, decoder):
     print("Decoder Layers:", decoder.rnn.num_layers)
 
 # Convert text data to tensors
+
+
 def text_to_tensor(text, max_length):
     tokens = tokenize(text)
     token_ids = [word2idx.get(token, word2idx['<unk>']) for token in tokens]
@@ -153,6 +166,8 @@ def text_to_tensor(text, max_length):
     return torch.tensor(token_ids, dtype=torch.long)
 
 # Define dataset class
+
+
 class MyDataset(Dataset):
     def __init__(self, data, max_length):
         self.data = data
@@ -203,6 +218,8 @@ train_loader = DataLoader(train_dataset, batch_size=BATCH_SIZE, shuffle=True)
 val_loader = DataLoader(val_dataset, batch_size=BATCH_SIZE, shuffle=False)
 
 # Define Decoder
+
+
 class Encoder(nn.Module):
     def __init__(self, input_dim, emb_dim, enc_hid_dim, n_layers, dropout):
         super().__init__()
@@ -215,6 +232,7 @@ class Encoder(nn.Module):
         embedded = self.dropout(self.embedding(src))
         outputs, (hidden, cell) = self.rnn(embedded)
         return outputs, hidden  # Return only outputs and hidden, not cell
+
 
 class Decoder(nn.Module):
     def __init__(self, output_dim, emb_dim, dec_hid_dim, n_layers, dropout):
@@ -234,6 +252,10 @@ class Decoder(nn.Module):
         output, hidden = self.rnn(embedded, hidden)
         prediction = self.fc_out(output.squeeze(0))
         return prediction, hidden
+
+    def init_hidden(self, batch_size, device):
+        return torch.zeros(self.n_layers, batch_size, self.dec_hid_dim, device=device)
+
 
 class Seq2Seq(nn.Module):
     def __init__(self, encoder, decoder, device):
@@ -264,8 +286,6 @@ class Seq2Seq(nn.Module):
 
         return outputs
 
-    def init_hidden(self, batch_size):
-        return torch.zeros(self.decoder.n_layers, batch_size, self.decoder.dec_hid_dim, device=self.device)
 
 # Define function to plot training and validation loss
 def plot_loss(train_losses, val_losses, save_path):
@@ -280,6 +300,8 @@ def plot_loss(train_losses, val_losses, save_path):
     plt.savefig(save_path)
 
 # Training Loop
+
+
 def train(model, iterator, optimizer, criterion, clip):
     model.train()
 
@@ -306,6 +328,7 @@ def train(model, iterator, optimizer, criterion, clip):
 
     return epoch_loss / len(iterator)
 
+
 def evaluate(model, iterator, criterion):
     model.eval()
 
@@ -325,17 +348,26 @@ def evaluate(model, iterator, criterion):
 
             # Apply mask to ignore padding tokens in loss calculation
             masked_loss = (loss * mask.view(-1)).sum()
+            # Calculate the total number of non-padding tokens
+            num_non_pad_tokens = mask.sum()
+
+            # Divide the masked loss by the sum of non-padding tokens to get the average loss
+            if num_non_pad_tokens.item() > 0:
+                masked_loss /= num_non_pad_tokens
 
             # Accumulate loss
             epoch_loss += masked_loss.item()
 
     return epoch_loss / len(iterator)
 
+
 # Define model architecture
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 
-encoder = Encoder(len(word2idx), encoder_params['emb_dim'], encoder_params['enc_hid_dim'], encoder_params['n_layers'], dropout=encoder_params['dropout'])
-decoder = Decoder(len(word2idx), decoder_params['emb_dim'], decoder_params['dec_hid_dim'], decoder_params['n_layers'], dropout=decoder_params['dropout'])
+encoder = Encoder(len(word2idx), encoder_params['emb_dim'], encoder_params['enc_hid_dim'],
+                  encoder_params['n_layers'], dropout=encoder_params['dropout'])
+decoder = Decoder(len(word2idx), decoder_params['emb_dim'], decoder_params['dec_hid_dim'],
+                  decoder_params['n_layers'], dropout=decoder_params['dropout'])
 model = Seq2Seq(encoder, decoder, device).to(device)
 
 # Check model architecture
@@ -349,8 +381,10 @@ train_losses = []
 val_losses = []
 
 # Initialize best_valid_loss before training loop
-# Initialize best_valid_loss before training loop
 best_valid_loss = float('inf')
+
+# Early stopping count initialization
+early_stop_count = 0
 
 # Training loop
 for epoch in range(N_EPOCHS):
@@ -364,12 +398,14 @@ for epoch in range(N_EPOCHS):
         torch.save(model.state_dict(), 'tut3-model.pt')
         print(f'Saved model checkpoint (Validation Loss: {valid_loss:.3f})')
 
-        early_stop_count = 0  # Reset the count if validation loss improves
+        # Reset the early stopping count if validation loss improves
+        early_stop_count = 0
     else:
         early_stop_count += 1
         print(f'Early stopping count: {early_stop_count}')
 
-    print(f'Epoch: {epoch+1:02} | Train Loss: {train_loss:.3f} | Val. Loss: {valid_loss:.3f}')
+    print(
+        f'Epoch: {epoch+1:02} | Train Loss: {train_loss:.3f} | Val. Loss: {valid_loss:.3f}')
 
     if early_stop_count >= patience:
         print("Validation loss has been increasing for too long. Stopping training.")
@@ -389,23 +425,29 @@ def translate_sentence(sentence, model, device, max_len=50):
     model.eval()
     tokenized = tokenize(sentence)
     tokenized = ['<sos>'] + tokenized + ['<eos>']
-    numericalized = [word2idx.get(token, word2idx['<unk>']) for token in tokenized]
+    numericalized = [word2idx.get(token, word2idx['<unk>'])
+                     for token in tokenized]
     input_tensor = torch.LongTensor(numericalized).unsqueeze(1).to(device)
     with torch.no_grad():
         encoder_outputs, hidden = model.encoder(input_tensor)
-    
+
     outputs = []
+    previous_word = torch.tensor([word2idx['<sos>']], dtype=torch.long).to(
+        device)  # Initialize previous_word
     for _ in range(max_len):
-        previous_word = torch.tensor([word2idx['<sos>']], dtype=torch.long).to(device)
-        print("Previous word:", idx2word[previous_word.item()])
+        # print("Previous word:", idx2word[previous_word.item()])
 
         with torch.no_grad():
             output, hidden = model.decoder(previous_word, hidden)
         best_guess = output.argmax(1).item()
+        # print("Predicted word:", idx2word[best_guess])  # Print predicted word
         if best_guess == word2idx['<eos>']:
             break
         outputs.append(best_guess)
-    
+
+        # Update previous_word for the next iteration
+        previous_word = torch.tensor([best_guess], dtype=torch.long).to(device)
+
     translated_sentence = [idx2word[idx] for idx in outputs]
     return translated_sentence
 
@@ -414,8 +456,10 @@ def translate_sentence(sentence, model, device, max_len=50):
 print("Starting Testing...")
 
 test_sentence = "What is a database?"
+print('')
 
-predicted_sentence = translate_sentence(test_sentence, model, device, max_len=50)
+predicted_sentence = translate_sentence(
+    test_sentence, model, device, max_len=50)
 
 print(f"Input: {test_sentence}")
 print(f"Prediction: {' '.join(predicted_sentence)}")
@@ -428,4 +472,4 @@ elapsed_time = end_time - start_time
 # Print elapsed time
 print()
 
-print(elapsed_time)  # Output: "1 week, 5 hours, 30 minutes, 10 seconds"
+print("Time: " + str(elapsed_time))
