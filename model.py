@@ -221,7 +221,7 @@ class MyDataset(Dataset):
 
 
 # Define DataLoader
-BATCH_SIZE = 64
+BATCH_SIZE = 16
 MAX_LENGTH = 50
 
 train_dataset = MyDataset(train_data, MAX_LENGTH)
@@ -237,13 +237,13 @@ class Encoder(nn.Module):
         super().__init__()
         self.n_layers = n_layers
         self.embedding = nn.Embedding(input_dim, emb_dim)
-        self.rnn = nn.LSTM(emb_dim, enc_hid_dim, n_layers, dropout=dropout)
+        self.rnn = nn.GRU(emb_dim, enc_hid_dim, n_layers, dropout=dropout)
         self.dropout = nn.Dropout(dropout)
 
     def forward(self, src):
         embedded = self.dropout(self.embedding(src))
-        outputs, (hidden, cell) = self.rnn(embedded)
-        return outputs, hidden  # Return only outputs and hidden, not cell
+        outputs, hidden = self.rnn(embedded)
+        return outputs, hidden
 
 
 class Decoder(nn.Module):
@@ -252,21 +252,22 @@ class Decoder(nn.Module):
 
         self.output_dim = output_dim
         self.embedding = nn.Embedding(output_dim, emb_dim)
-        self.rnn = nn.GRU(emb_dim, dec_hid_dim, n_layers, dropout=dropout)
+        self.rnn = nn.LSTM(emb_dim, dec_hid_dim, n_layers, dropout=dropout)
         self.fc_out = nn.Linear(dec_hid_dim, output_dim)
         self.dropout = nn.Dropout(dropout)
         self.n_layers = n_layers
         self.dec_hid_dim = dec_hid_dim
 
-    def forward(self, input, hidden):
+    def forward(self, input, hidden, cell):
         input = input.unsqueeze(0)
         embedded = self.dropout(self.embedding(input))
-        output, hidden = self.rnn(embedded, hidden)
+        output, (hidden, cell) = self.rnn(embedded, (hidden, cell))
         prediction = self.fc_out(output.squeeze(0))
-        return prediction, hidden
+        return prediction, hidden, cell
 
     def init_hidden(self, batch_size, device):
-        return torch.zeros(self.n_layers, batch_size, self.dec_hid_dim, device=device)
+        return (torch.zeros(self.n_layers, batch_size, self.dec_hid_dim, device=device),
+                torch.zeros(self.n_layers, batch_size, self.dec_hid_dim, device=device))
 
 
 class Seq2Seq(nn.Module):
@@ -287,10 +288,15 @@ class Seq2Seq(nn.Module):
 
         encoder_outputs, hidden = self.encoder(src)
 
+        # Initialize the hidden and cell states for the decoder
+        decoder_hidden, decoder_cell = self.decoder.init_hidden(
+            batch_size, self.device)
+
         input = trg[0, :]
 
         for t in range(1, trg_len):
-            output, hidden = self.decoder(input, hidden)
+            output, hidden, decoder_cell = self.decoder(
+                input, decoder_hidden, decoder_cell)  # Pass decoder_cell here
             outputs[t] = output
             teacher_force = random.random() < teacher_forcing_ratio
             top1 = output.argmax(1)
@@ -299,41 +305,30 @@ class Seq2Seq(nn.Module):
         return outputs
 
 
-# Define function to plot training and validation loss
-def plot_loss(train_losses, val_losses, save_path):
-    plt.figure(figsize=(10, 6))
-    plt.plot(train_losses, label='Training Loss')
-    plt.plot(val_losses, label='Validation Loss')
-    plt.xlabel('Epoch')
-    plt.ylabel('Loss')
-    plt.title('Training and Validation Loss')
-    plt.legend()
-    plt.grid(True)
-    plt.savefig(save_path)
-
 # Training Loop
 
 
 def train(model, iterator, optimizer, criterion, clip):
     model.train()
-
     epoch_loss = 0
 
     for src, trg in tqdm(iterator, desc="Training Batches", total=len(iterator)):
         optimizer.zero_grad()
 
-        output = model(src, trg)
+        # Ensure src and trg are on the same device as the model
+        src = src.to(model.device)
+        trg = trg.to(model.device)
 
-        # Reshape output to [trg_len, batch_size, output_dim]
+        output = model(src, trg)
         output_dim = output.shape[-1]
+
+        # Reshape output to [trg_len * batch_size, output_dim]
         output = output[1:].view(-1, output_dim)
         trg = trg[1:].view(-1)
 
         loss = criterion(output, trg)
         loss.backward()
-
         torch.nn.utils.clip_grad_norm_(model.parameters(), clip)
-
         optimizer.step()
 
         epoch_loss += loss.item()
@@ -423,37 +418,68 @@ for epoch in range(N_EPOCHS):
         print("Validation loss has been increasing for too long. Stopping training.")
         break
 
+
+# Define function to plot training and validation loss
+def plot_loss(train_losses, val_losses, save_path):
+    plt.figure(figsize=(10, 6))
+    plt.plot(train_losses, label='Training Loss')
+    plt.plot(val_losses, label='Validation Loss')
+    plt.xlabel('Epoch')
+    plt.ylabel('Loss')
+    plt.title('Training and Validation Loss')
+    plt.legend()
+    plt.grid(True)
+    plt.savefig(save_path)
+
+
 # Plot training and validation loss
 plot_loss(train_losses, val_losses, 'loss_plot.png')
 
 # Load the best model for testing
 model.load_state_dict(torch.load('tut3-model.pt'))
 
-# Set the model to evaluation mode
-model.eval()
 
-
-def translate_sentence(sentence, model, device, max_len=50):
+def translate_sentence_with_prompt(prompt, sentence, model, device, max_len=50):
     model.eval()
-    tokenized = tokenize(sentence)
-    tokenized = ['<sos>'] + tokenized + ['<eos>']
+
+    # Combine prompt and sentence
+    prompt_and_sentence = prompt + " " + sentence
+
+    # Tokenize the combined prompt and sentence
+    tokenized = prompt_and_sentence.split()  # Split prompt and sentence into words
+    tokenized = tokenized + ['<eos>']  # Add <eos> token
+
+    print("Tokenized:", tokenized)
+
+    # Numericalize the tokenized prompt and sentence
     numericalized = [word2idx.get(token, word2idx['<unk>'])
                      for token in tokenized]
+
+    print("Numericalized:", numericalized)
+
+    # Convert to tensor and move to device
     input_tensor = torch.LongTensor(numericalized).unsqueeze(1).to(device)
+
+    print("Input tensor shape:", input_tensor.shape)
+
+    # Encode the input tensor
     with torch.no_grad():
         encoder_outputs, hidden = model.encoder(input_tensor)
 
     outputs = []
-    previous_word = torch.tensor([word2idx['<sos>']], dtype=torch.long).to(
-        device)  # Initialize previous_word
-    for _ in range(max_len):
-        # print("Previous word:", idx2word[previous_word.item()])
+    previous_word = torch.tensor(
+        [word2idx['<sos>']], dtype=torch.long).to(device)
+    hidden_cell = model.decoder.init_hidden(
+        1, device)  # Initialize hidden and cell states
 
+    for _ in range(max_len):
         with torch.no_grad():
-            output, hidden = model.decoder(previous_word, hidden)
+            output, hidden, cell = model.decoder(
+                previous_word, hidden_cell[0], hidden_cell[1])
         best_guess = output.argmax(1).item()
-        # print("Predicted word:", idx2word[best_guess])  # Print predicted word
+
         if best_guess == word2idx['<eos>']:
+            print("<eos> token predicted. Breaking loop.")
             break
         outputs.append(best_guess)
 
@@ -461,27 +487,19 @@ def translate_sentence(sentence, model, device, max_len=50):
         previous_word = torch.tensor([best_guess], dtype=torch.long).to(device)
 
     translated_sentence = [idx2word[idx] for idx in outputs]
+
     return translated_sentence
 
 
 # Test the model
 print("Starting Testing...")
 
-test_sentence = "Find videos of Van Gogh's famous paintings?"
-print('')
+# Prompt
+prompt = "Below is an instruction that describes a task. Write a response that appropriately completes the request."
 
-predicted_sentence = translate_sentence(
-    test_sentence, model, device, max_len=50)
+test_sentence = "you"
 
-print(f"Input: {test_sentence}")
-print(f"Prediction: {' '.join(predicted_sentence)}")
+translated_sentence = translate_sentence_with_prompt(
+    prompt, test_sentence, model, device)
 
-end_time = time.time()
-
-# Calculate elapsed time
-elapsed_time = end_time - start_time
-
-# Print elapsed time
-print()
-
-print("Time: " + str(elapsed_time))
+print("Translated sentence:", translated_sentence)

@@ -1,23 +1,22 @@
 {
-    "training_params": {
-      "N_EPOCHS": 100,
-      "CLIP": 1,
-      "learning_rate": 0.000001,
-      "patience": 3
+  "training_params": {
+    "N_EPOCHS": 10,
+    "CLIP": 1,
+    "learning_rate": 0.0005,
+    "patience": 5
+  },
+  "model_params": {
+    "encoder": {
+      "emb_dim": 256,
+      "enc_hid_dim": 512,
+      "n_layers": 2,
+      "dropout": 0.1
     },
-    "model_params": {
-      "encoder": {
-        "emb_dim": 256,
-        "enc_hid_dim": 512,
-        "n_layers": 3,
-        "dropout": 0.2
-      },
-      "decoder": {
-        "emb_dim": 256,
-        "dec_hid_dim": 512,
-        "n_layers": 3,
-        "dropout": 0.5
-      }
+    "decoder": {
+      "emb_dim": 256,
+      "dec_hid_dim": 512,
+      "n_layers": 2,
+      "dropout": 0.1
     }
   }
-  
+}
